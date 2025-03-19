@@ -1,0 +1,51 @@
+.message {
+  margin: 8px;
+  max-width: 70%;
+  padding: 8px;
+  border-radius: 12px;
+
+  &.sent {
+    margin-left: auto;
+    background-color: #dcf8c6;
+  }
+
+  &.received {
+    margin-right: auto;
+    background-color: #ffffff;
+  }
+}
+
+.message-image-container {
+  .chat-image {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+// Optional: Add styles for expanded image view
+.expanded-image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+} 
