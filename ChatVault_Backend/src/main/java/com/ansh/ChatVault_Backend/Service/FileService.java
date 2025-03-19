@@ -17,9 +17,14 @@ public class FileService {
 
     public String uploadFile(MultipartFile file) {
         try {
-            // Add transformation parameters for images
+            // Correctly formatted transformation parameters
             Map<String, Object> options = ObjectUtils.asMap(
-                "transformation", "width_800,height_800,crop_limit,quality_auto"
+                    "transformation", ObjectUtils.asMap(
+                            "width", 800,
+                            "height", 800,
+                            "crop", "limit",
+                            "quality", "auto"
+                    )
             );
 
             Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
