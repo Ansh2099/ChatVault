@@ -1,0 +1,10 @@
+app:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS}
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
