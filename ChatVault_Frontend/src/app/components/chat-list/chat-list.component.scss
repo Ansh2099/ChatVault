@@ -8,8 +8,36 @@
   }
 }
 
+.sticky-top.bg-white {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.input-group {
+  margin-bottom: 10px;
+
+  .input-group-text {
+    background-color: #fff;
+    border-right: none;
+    color: #999;
+  }
+
+  .form-control-sm {
+    border-left: none;
+    box-shadow: none !important;
+
+    &:focus {
+      border-color: #ccc;
+      box-shadow: none !important;
+    }
+  }
+}
+
 .badge.rounded-pill.text-bg-light {
-  font-weight: normal !important;
+  font-weight: 500 !important;
+  color: #666;
+  background-color: #e9ecef !important;
+  border: 1px solid #ced4da;
 }
 
 .msg-date {
@@ -35,5 +63,5 @@
 }
 
 .border-bottom-gray {
-  border-bottom: solid 1px #ccc;
+  border-bottom: 1px solid #e0e0e0;
 }
