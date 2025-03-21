@@ -11,9 +11,8 @@ ENV KC_HOSTNAME_STRICT_HTTPS=false
 # Expose the correct port for Render
 EXPOSE 8080
 
-# Start Keycloak in development mode with required flags
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev",
-  "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true",
-  "--proxy=edge",
-  "--http-port=8080"
-]
+# Ensure the script runs properly by using exec form
+ENTRYPOINT ["/bin/bash", "-c", "/opt/keycloak/bin/kc.sh start-dev \
+  --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true \
+  --proxy=edge \
+  --http-port=8080"]
