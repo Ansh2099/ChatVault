@@ -2,18 +2,13 @@ services:
   keycloak:
     container_name: keycloak-cv
     image: quay.io/keycloak/keycloak:latest
-    ports:
-      - 9090:8080
     environment:
-      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN: ansh
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: keycloak-service
       KC_HOSTNAME_STRICT: "false"
       KC_HOSTNAME_STRICT_HTTPS: "false"
     command:
       - "start-dev"
       - "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true"
       - "--hostname-strict=false"
-
-networks:
-  ChatVault:
-    driver: bridge
