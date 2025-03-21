@@ -12,8 +12,5 @@ ENV KC_HOSTNAME_STRICT_HTTPS=false
 ENV PORT=8080
 EXPOSE ${PORT}
 
-# Start Keycloak properly
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev",
-    "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true",
-    "--proxy=edge",
-    "--http-port=8080"]
+# Start Keycloak properly (all on one line)
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true", "--proxy=edge", "--http-port=8080"]
