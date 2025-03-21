@@ -3,7 +3,7 @@ services:
     container_name: keycloak-cv
     image: quay.io/keycloak/keycloak:latest
     environment:
-      KEYCLOAK_ADMIN: ansh
+      KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HOSTNAME: keycloak-service
       KC_HOSTNAME_STRICT: "false"
@@ -12,3 +12,8 @@ services:
       - "start-dev"
       - "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true"
       - "--hostname-strict=false"
+      - "--proxy=edge"
+      - "--http-port=8080"
+      - "--hostname=0.0.0.0"
+    ports:
+      - "8080:8080"
