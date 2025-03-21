@@ -12,7 +12,8 @@ ENV KC_HOSTNAME_STRICT_HTTPS=false
 EXPOSE 8080
 
 # Start Keycloak in development mode with required flags
-CMD /opt/keycloak/bin/kc.sh start-dev \
-  --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true \
-  --proxy=edge \
-  --http-port=8080
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev",
+  "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true",
+  "--proxy=edge",
+  "--http-port=8080"
+]
