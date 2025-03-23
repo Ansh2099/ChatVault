@@ -8,9 +8,13 @@ ENV KEYCLOAK_ADMIN_PASSWORD=admin
 ENV KC_HOSTNAME_STRICT=false
 ENV KC_HOSTNAME_STRICT_HTTPS=false
 
-# Use Render's assigned PORT (Default: 8080)
-ENV PORT=8080
-EXPOSE ${PORT}
+# Create a script to start Keycloak with the correct port
+RUN echo '#!/bin/bash' > /start-keycloak.sh && \
+    echo '/opt/keycloak/bin/kc.sh start-dev --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true --proxy=edge --http-port=$PORT' >> /start-keycloak.sh && \
+    chmod +x /start-keycloak.sh
 
-# Start Keycloak properly (all on one line)
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true", "--proxy=edge", "--http-port=8080"]
+# Expose the port Render will use
+EXPOSE 8080
+
+# Use the script as entrypoint
+ENTRYPOINT ["/start-keycloak.sh"]
