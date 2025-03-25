@@ -14,6 +14,7 @@ import {ChatService} from '../../services/services/chat.service';
 import {PickerComponent} from '@ctrl/ngx-emoji-mart';
 import {EmojiData} from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { MessageComponent } from './components/message/message.component';
+import { environment } from '../../../environments/environment';
 
 // Define the response interface
 interface UploadMediaResponse {
@@ -59,7 +60,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnDestroy(): void {
     if (this.socketClient !== null) {
       this.socketClient.disconnect();
-      this.notificationSubscription.unsubscribe();
+      if (this.notificationSubscription) {
+        this.notificationSubscription.unsubscribe();
+      }
       this.socketClient = null;
     }
   }
@@ -191,19 +194,25 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private initWebSocket() {
     if (this.keycloakService.keycloak.tokenParsed?.sub) {
-      let ws = new SockJS('http://localhost:8080/ws');
+      let ws = new SockJS(`${environment.apiUrl}/ws`);
       this.socketClient = Stomp.over(ws);
       const subUrl = `/user/${this.keycloakService.keycloak.tokenParsed?.sub}/chat`;
+      
       this.socketClient.connect({'Authorization': 'Bearer ' + this.keycloakService.keycloak.token},
         () => {
           this.notificationSubscription = this.socketClient.subscribe(subUrl,
             (message: any) => {
               const notification: Notification = JSON.parse(message.body);
               this.handleNotification(notification);
-
             },
-            () => console.error('Error while connecting to webSocket')
-            );
+            (error: any) => {
+              console.error('Error while connecting to WebSocket:', error);
+            }
+          );
+        },
+        (error: any) => {
+          console.error('WebSocket connection error:', error);
+          // Optionally implement reconnection logic here
         }
       );
     }
