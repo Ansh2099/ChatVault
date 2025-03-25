@@ -13,7 +13,6 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
