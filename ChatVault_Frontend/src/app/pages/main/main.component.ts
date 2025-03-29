@@ -2,10 +2,9 @@ import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} f
 import {ChatListComponent} from '../../components/chat-list/chat-list.component';
 import {KeycloakService} from '../../utils/keycloak/keycloak.service';
 import {ChatResponse} from '../../services/models/chat-response';
-import {DatePipe} from '@angular/common';
 import {MessageService} from '../../services/services/message.service';
 import {MessageResponse} from '../../services/models/message-response';
-import * as Stomp from 'stompjs';
+import { Client, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import {FormsModule} from '@angular/forms';
 import {MessageRequest} from '../../services/models/message-request';
@@ -25,7 +24,6 @@ interface UploadMediaResponse {
   selector: 'app-main',
   imports: [
     ChatListComponent,
-    DatePipe,
     FormsModule,
     PickerComponent,
     MessageComponent

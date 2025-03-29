@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  keycloakUrl: 'http://localhost:9090',
+  keycloakUrl: 'https://chatvault-keycloak.onrender.com',
   keycloakRealm: 'ChatVault',
   keycloakClientId: 'chatvault-app',
   appUrl: 'http://localhost:4200',

@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = "dist/whatsapp-clone-ui"
+command = "npm run build"
+publish = "dist/whatsapp-clone-ui"
 
 [context.production.environment]
-  NODE_VERSION = "18.17.0"
+NODE_VERSION = "18.19.1"
