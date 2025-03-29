@@ -16,13 +16,15 @@ const envConfigFile = `export const environment = {
 
 writeFileSync(targetPath, envConfigFile);
 console.log(`Environment variables written to ${targetPath}`);
-import { writeFileSync } from 'fs';
+const fs = require('fs');
+
+const { writeFileSync } = fs;
 
 require('dotenv').config();
 
-const targetPath = './src/environments/environment.prod.ts';
+const prodTargetPath = './src/environments/environment.prod.ts';
 
-const envConfigFile = `export const environment = {
+const prodEnvConfigFile = `export const environment = {
   production: true,
   keycloakUrl: '${process.env.KEYCLOAK_URL}',
   keycloakRealm: 'ChatVault',
