@@ -1,5 +1,5 @@
 [build]
-  command = "npm install -g @angular/cli && ng build"
+  command = "npm ci && npm run build"
   publish = "dist/whatsapp-clone-ui"
 
 [build.environment]
