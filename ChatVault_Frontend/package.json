@@ -8,7 +8,8 @@
     "start": "ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "api-gen": "ng-openapi-gen --input ./src/openapi/openapi.json --output ./src/app/services"
+    "api-gen": "ng-openapi-gen --input ./src/openapi/openapi.json --output ./src/app/services",
+    "netlify-build": "npm install -g @angular/cli && ng build"
   },
   "private": true,
   "dependencies": {

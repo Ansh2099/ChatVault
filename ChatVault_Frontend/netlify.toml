@@ -1,0 +1,7 @@
+[build]
+  command = "npm install -g @angular/cli && ng build"
+  publish = "dist/whatsapp-clone-ui"
+
+[build.environment]
+  NODE_VERSION = "18.16.0"
+  NPM_FLAGS = "--legacy-peer-deps"
