@@ -2,6 +2,7 @@ package com.ansh.ChatVault_Backend.Controllers;
 
 
 import com.ansh.ChatVault_Backend.Service.FileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/cloudinary")
 @RequiredArgsConstructor
+@Tag(name = "Cloudinary_Controller")
 public class CloudinaryController {
 
     private final FileService cloudinaryService;
