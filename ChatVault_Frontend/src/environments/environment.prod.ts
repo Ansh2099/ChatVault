@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  keycloakUrl: 'undefined',
+  keycloakUrl: 'YOUR_KEYCLOAK_URL',
   keycloakRealm: 'ChatVault',
   keycloakClientId: 'chatvault-app',
-  appUrl: 'undefined',
-  apiUrl: 'undefined'
+  appUrl: 'YOUR_FRONTEND_URL',
+  apiUrl: 'YOUR_API_URL'
 };
