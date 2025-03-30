@@ -1,5 +1,6 @@
 [build]
-  command = "npm list -g @angular/cli && npx ng version && npm install -g @angular/cli@19 && npm ci && npx ng build --configuration=production"
-  publish = "dist/whatsapp-clone-ui"
+command = "npm ci && npm install @angular/cli@19 --save-dev && npx ng version && npx ng build --configuration=production"
+publish = "dist/whatsapp-clone-ui"
+
 [build.environment]
   NODE_VERSION = "18.19.1"
