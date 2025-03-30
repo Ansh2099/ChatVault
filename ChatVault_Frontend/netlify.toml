@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npx ng build --configuration=production"
+  command = "npm ci && npx ng build --configuration=production"
   publish = "dist/whatsapp-clone-ui"
 
 [build.environment]
