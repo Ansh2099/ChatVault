@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "@angular-builders/custom-webpack": "^19.0.0"
-  },
-  "dependencies": {
-    "typescript": "^5.8.2"
-  }
-}
