@@ -13,7 +13,7 @@ import {ChatService} from '../../services/services/chat.service';
 import {PickerComponent} from '@ctrl/ngx-emoji-mart';
 import {EmojiData} from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { MessageComponent } from './components/message/message.component';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 
 // Define the response interface
 interface UploadMediaResponse {
