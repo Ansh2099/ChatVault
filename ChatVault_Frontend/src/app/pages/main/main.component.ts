@@ -66,6 +66,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    console.log('Environment API URL:', environment.apiUrl);
     this.initWebSocket();
     this.getAllChats();
     this.currentUserId = this.keycloakService.userId || '';
@@ -198,12 +199,18 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
         secureApiUrl = secureApiUrl.replace('http:', 'https:');
       }
       
-      let ws = new SockJS(`${secureApiUrl}/ws`);
-      this.socketClient = Stomp.over(ws);
+      console.log('Connecting to WebSocket at:', `${secureApiUrl}/ws`);
+      
+      // Create a factory function for SockJS
+      const factory = () => new SockJS(`${secureApiUrl}/ws`);
+      
+      // Use the factory with Stomp.over()
+      this.socketClient = Stomp.over(factory);
       const subUrl = `/user/${this.keycloakService.keycloak.tokenParsed?.sub}/chat`;
       
       this.socketClient.connect({'Authorization': 'Bearer ' + this.keycloakService.keycloak.token},
         () => {
+          console.log('WebSocket connection established');
           this.notificationSubscription = this.socketClient.subscribe(subUrl,
             (message: any) => {
               const notification: Notification = JSON.parse(message.body);
