@@ -192,7 +192,13 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private initWebSocket() {
     if (this.keycloakService.keycloak.tokenParsed?.sub) {
-      let ws = new SockJS(`${environment.apiUrl}/ws`);
+      // Ensure we're using HTTPS if the page is served over HTTPS
+      let secureApiUrl = environment.apiUrl;
+      if (window.location.protocol === 'https:' && secureApiUrl.startsWith('http:')) {
+        secureApiUrl = secureApiUrl.replace('http:', 'https:');
+      }
+      
+      let ws = new SockJS(`${secureApiUrl}/ws`);
       this.socketClient = Stomp.over(ws);
       const subUrl = `/user/${this.keycloakService.keycloak.tokenParsed?.sub}/chat`;
       
