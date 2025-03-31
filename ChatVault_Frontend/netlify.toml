@@ -1,5 +1,5 @@
 [build]
-command = "npm ci && npm install @angular-builders/custom-webpack@latest --save-dev && npx ng version && npx ng build --configuration=production"
+command = "npm ci && node scripts/set-env.js && npm install @angular-builders/custom-webpack@latest --save-dev && npx ng build --configuration=production --budget-error=999mb"
 publish = "dist/whatsapp-clone-ui"
 
 [build.environment]

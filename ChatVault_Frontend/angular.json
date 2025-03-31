@@ -36,7 +36,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": ["scripts/set-env.js"],
+            "scripts": [],
             "allowedCommonJsDependencies": [
               "stompjs",
               "sockjs-client"
