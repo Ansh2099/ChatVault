@@ -21,20 +21,46 @@ public class UserSynchronizer {
 
     public void synchronizeWithIdp(Jwt token) {
         log.info("Synchronizing user with idp");
-        getUserEmail(token).ifPresent(userEmail -> {
-            log.info("Synchronizing user having email {}", userEmail);
-            Optional<User> optUser = userRepository.findByEmail(userEmail);
-            User user = userMapper.fromTokenAttributes(token.getClaims());
+        Map<String, Object> claims = token.getClaims();
+        
+        // Check if sub claim exists (this is the user ID from Keycloak)
+        if (claims.containsKey("sub")) {
+            String userId = claims.get("sub").toString();
+            log.info("Synchronizing user with ID {}", userId);
             
-            // If user exists, preserve their creation date
-            if (optUser.isPresent()) {
-                User existingUser = optUser.get();
+            // Create user from token attributes
+            User user = userMapper.fromTokenAttributes(claims);
+            
+            // Try to find existing user by ID first
+            Optional<User> existingUserById = userRepository.findById(userId);
+            
+            // If user exists by ID, update their data
+            if (existingUserById.isPresent()) {
+                User existingUser = existingUserById.get();
                 user.setId(existingUser.getId());
                 user.setCreatedDate(existingUser.getCreatedDate());
+                log.info("Updating existing user with ID {}", userId);
+            } 
+            // If user doesn't exist by ID but has email, try to find by email
+            else if (claims.containsKey("email")) {
+                String userEmail = claims.get("email").toString();
+                Optional<User> existingUserByEmail = userRepository.findByEmail(userEmail);
+                
+                if (existingUserByEmail.isPresent()) {
+                    User existingUser = existingUserByEmail.get();
+                    // Update ID to match Keycloak ID
+                    user.setId(userId);
+                    user.setCreatedDate(existingUser.getCreatedDate());
+                    log.info("Updating existing user with email {} to have ID {}", userEmail, userId);
+                }
             }
             
+            // Save the user regardless
             userRepository.save(user);
-        });
+            log.info("User synchronization completed for ID {}", userId);
+        } else {
+            log.warn("Cannot synchronize user: missing 'sub' claim in token");
+        }
     }
 
     private Optional<String> getUserEmail(Jwt token) {
@@ -43,6 +69,5 @@ public class UserSynchronizer {
             return Optional.of(attributes.get("email").toString());
         }
         return Optional.empty();
-
     }
 }
