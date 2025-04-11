@@ -23,7 +23,7 @@ yarn-error.log
 # Visual Studio Code
 .vscode
 .vscode/*
-!.vscode/settings.json
+.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -42,3 +42,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+#Netlify
+.netlify/
+.netlify/*
