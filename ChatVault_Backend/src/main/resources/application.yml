@@ -1,9 +1,9 @@
 spring:
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
 
   datasource:
-    url: ${DATABASE_URL}&sslmode=prefer&sslfactory=org.postgresql.ssl.NonValidatingFactory
+    url: ${DATABASE_URL}?sslmode=require
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
