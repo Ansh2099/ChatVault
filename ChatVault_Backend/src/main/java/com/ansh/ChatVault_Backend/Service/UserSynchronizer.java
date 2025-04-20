@@ -28,17 +28,23 @@ public class UserSynchronizer {
             String userId = claims.get("sub").toString();
             log.info("Synchronizing user with ID {}", userId);
             
-            // Create user from token attributes
-            User user = userMapper.fromTokenAttributes(claims);
-            
             // Try to find existing user by ID first
             Optional<User> existingUserById = userRepository.findById(userId);
+            User user;
             
             // If user exists by ID, update their data
             if (existingUserById.isPresent()) {
-                User existingUser = existingUserById.get();
-                user.setId(existingUser.getId());
-                user.setCreatedDate(existingUser.getCreatedDate());
+                user = existingUserById.get();
+                // Update user properties from claims
+                if (claims.containsKey("given_name")) {
+                    user.setFirstName(claims.get("given_name").toString());
+                }
+                if (claims.containsKey("family_name")) {
+                    user.setLastName(claims.get("family_name").toString());
+                }
+                if (claims.containsKey("email")) {
+                    user.setEmail(claims.get("email").toString());
+                }
                 log.info("Updating existing user with ID {}", userId);
             } 
             // If user doesn't exist by ID but has email, try to find by email
@@ -47,15 +53,27 @@ public class UserSynchronizer {
                 Optional<User> existingUserByEmail = userRepository.findByEmail(userEmail);
                 
                 if (existingUserByEmail.isPresent()) {
-                    User existingUser = existingUserByEmail.get();
+                    user = existingUserByEmail.get();
                     // Update ID to match Keycloak ID
                     user.setId(userId);
-                    user.setCreatedDate(existingUser.getCreatedDate());
+                    // Update other properties
+                    if (claims.containsKey("given_name")) {
+                        user.setFirstName(claims.get("given_name").toString());
+                    }
+                    if (claims.containsKey("family_name")) {
+                        user.setLastName(claims.get("family_name").toString());
+                    }
                     log.info("Updating existing user with email {} to have ID {}", userEmail, userId);
+                } else {
+                    // Create new user
+                    user = userMapper.fromTokenAttributes(claims);
                 }
+            } else {
+                // Create new user
+                user = userMapper.fromTokenAttributes(claims);
             }
             
-            // Save the user regardless
+            // Save the user
             userRepository.save(user);
             log.info("User synchronization completed for ID {}", userId);
         } else {
