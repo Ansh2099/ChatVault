@@ -7,4 +7,3 @@ CREATE TABLE chat (
     FOREIGN KEY (sender_id) REFERENCES users(id),
     FOREIGN KEY (recipient_id) REFERENCES users(id)
 );
-
