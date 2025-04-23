@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/cloudinary")
+@RequestMapping("/api/v1/cloudinary")
 @RequiredArgsConstructor
 @Tag(name = "Cloudinary_Controller")
 public class CloudinaryController {
