@@ -15,7 +15,8 @@ public class GlobalExceptionHandler {
             MessageNotFoundException.class,
             ChatNotFoundException.class,
             UnauthorizedAccess.class,
-            DuplicateUserException.class})
+            DuplicateUserException.class,
+            FileUploadError.class})
     public ResponseEntity<ErrorResponse> customExceptions(RuntimeException exception){
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -29,6 +30,9 @@ public class GlobalExceptionHandler {
 
         } else if (exception instanceof DuplicateUserException) {
             status = HttpStatus.CONFLICT;
+
+        } else if (exception instanceof FileUploadError) {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         ErrorResponse error = new ErrorResponse(status.value(), exception.getMessage(), LocalDateTime.now());
