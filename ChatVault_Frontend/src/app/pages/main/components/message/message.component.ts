@@ -19,6 +19,10 @@ import { CommonModule } from "@angular/common";
           {{message.content}}
         </div>
       </ng-container>
+      <!-- Read/Seen indicator for sent messages -->
+      <div *ngIf="isSent && message.state === 'SEEN'" class="seen-indicator">
+        ✔️ Seen
+      </div>
     </div>
   `,
   styleUrls: ['./message.component.scss'],

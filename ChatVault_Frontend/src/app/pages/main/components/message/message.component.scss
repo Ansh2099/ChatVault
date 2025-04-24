@@ -15,6 +15,15 @@
   }
 }
 
+.seen-indicator {
+  font-size: 0.8em;
+  color: #4caf50;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .message-image-container {
   .chat-image {
     max-width: 300px;
