@@ -1,5 +1,6 @@
 package com.ansh.ChatVault_Backend.Service;
 
+import com.ansh.ChatVault_Backend.Exceptions.CustomExceptions.FileUploadError;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class FileService {
             Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
             return uploadResult.get("secure_url").toString();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to upload file", e);
+            throw new FileUploadError("Failed to upload file", e);
         }
     }
 }

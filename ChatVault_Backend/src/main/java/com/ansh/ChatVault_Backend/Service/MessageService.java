@@ -3,6 +3,8 @@ package com.ansh.ChatVault_Backend.Service;
 import com.ansh.ChatVault_Backend.Constants.MessageState;
 import com.ansh.ChatVault_Backend.Constants.MessageType;
 import com.ansh.ChatVault_Backend.Constants.NotificationType;
+import com.ansh.ChatVault_Backend.Exceptions.CustomExceptions.ChatNotFoundException;
+import com.ansh.ChatVault_Backend.Exceptions.CustomExceptions.MessageNotFoundException;
 import com.ansh.ChatVault_Backend.Mappers.MessageMapper;
 import com.ansh.ChatVault_Backend.Model.Chat;
 import com.ansh.ChatVault_Backend.Model.Message;
@@ -11,7 +13,6 @@ import com.ansh.ChatVault_Backend.Repositories.ChatRepository;
 import com.ansh.ChatVault_Backend.Repositories.MessageRepository;
 import com.ansh.ChatVault_Backend.Responses.MessageRequest;
 import com.ansh.ChatVault_Backend.Responses.MessageResponse;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class MessageService {
 
     public void saveMessage(MessageRequest messageRequest) {
         Chat chat = chatRepository.findById(messageRequest.getChatId())
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
+                .orElseThrow(() -> new ChatNotFoundException("Chat not found"));
 
         Message message = new Message();
         message.setContent(messageRequest.getContent());
@@ -60,8 +61,13 @@ public class MessageService {
     }
 
     public List<MessageResponse> findChatMessages(String chatId) {
-        return messageRepository.findMessagesByChatId(chatId)
-                .stream()
+        List<Message> messages = messageRepository.findMessagesByChatId(chatId);
+
+        if (messages.isEmpty()) {
+            throw new MessageNotFoundException("No messages found for chatId: " + chatId);
+        }
+
+        return messages.stream()
                 .map(mapper::toMessageResponse)
                 .toList();
     }
@@ -69,7 +75,7 @@ public class MessageService {
     @Transactional
     public void setMessagesToSeen(String chatId, Authentication authentication) {
         Chat chat = chatRepository.findById(chatId)
-                .orElseThrow(() -> new RuntimeException("Chat not found"));
+                .orElseThrow(() -> new ChatNotFoundException("Chat not found"));
         final String recipientId = getRecipientId(chat, authentication);
 
         messageRepository.setMessagesToSeenByChatId(chatId, MessageState.SEEN);
@@ -86,7 +92,7 @@ public class MessageService {
 
     public String uploadMediaMessage(String chatId, MultipartFile file, Authentication authentication) {
         Chat chat = chatRepository.findById(chatId)
-                .orElseThrow(() -> new RuntimeException("Chat not found"));
+                .orElseThrow(() -> new ChatNotFoundException("Chat not found"));
 
         final String senderId = getSenderId(chat, authentication);
         final String receiverId = getRecipientId(chat, authentication);

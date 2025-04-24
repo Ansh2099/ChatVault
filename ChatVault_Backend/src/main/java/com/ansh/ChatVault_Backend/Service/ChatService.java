@@ -1,5 +1,6 @@
 package com.ansh.ChatVault_Backend.Service;
 
+import com.ansh.ChatVault_Backend.Exceptions.CustomExceptions.UserNotFoundException;
 import com.ansh.ChatVault_Backend.Mappers.ChatMapper;
 import com.ansh.ChatVault_Backend.Model.Chat;
 import com.ansh.ChatVault_Backend.Model.User;
@@ -40,9 +41,9 @@ public class ChatService {
         }
 
         User sender = userRepository.findByPublicId(senderId)
-                .orElseThrow(() ->  new EntityNotFoundException("User with id " + senderId + " not found"));
+                .orElseThrow(() ->  new UserNotFoundException("User with id " + senderId + " not found"));
         User receiver = userRepository.findByPublicId(receiverId)
-                .orElseThrow(() ->  new EntityNotFoundException("User with id " + receiverId + " not found"));
+                .orElseThrow(() ->  new UserNotFoundException("User with id " + receiverId + " not found"));
 
         Chat chat = new Chat();
         chat.setSender(sender);
